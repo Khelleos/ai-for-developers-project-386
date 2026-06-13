@@ -1,7 +1,3 @@
-import "@typespec/http";
-
-using Http;
-
 namespace CallBooking;
 
 /*
@@ -84,6 +80,7 @@ model Booking {
   id: string;
 
   /** The `EventType` this booking is for. */
+  @minLength(1)
   eventTypeId: string;
 
   /** The person who booked the call. */
@@ -106,6 +103,7 @@ model Booking {
 /** Payload for creating a `Booking`. Read-only fields are omitted. */
 model BookingCreate {
   /** The `EventType` this booking is for. */
+  @minLength(1)
   eventTypeId: string;
 
   /** The person who booked the call. */

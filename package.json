@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "build": "tsp compile .",
-    "watch": "tsp compile . --watch"
+    "watch": "tsp compile . --watch",
+    "test": "tsp compile . --no-emit --warn-as-error"
   },
   "dependencies": {
     "@typespec/compiler": "^1.12.0",
