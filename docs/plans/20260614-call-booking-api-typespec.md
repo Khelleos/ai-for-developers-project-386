@@ -83,10 +83,10 @@ Implement a compiling TypeSpec (`.tsp`) specification for a single-owner, Calend
 
 ### Task 6: Verify acceptance criteria
 
-- [ ] Run `npx tsp compile .` — zero errors, `tsp-output/schema/openapi.yaml` regenerated
-- [ ] Confirm the OpenAPI output contains exactly 5 operations (`POST /event-types`, `GET /event-types`, `GET /event-types/{eventTypeId}/slots`, `POST /bookings`, `GET /bookings`)
-- [ ] Confirm each operation's documented status codes are present
-- [ ] Confirm `EventType.id`, `Booking.id`, `Booking.createdAt` are read-only (absent from create request bodies)
+- [x] Run `npx tsp compile .` — zero errors, `tsp-output/schema/openapi.yaml` regenerated
+- [x] Confirm the OpenAPI output contains exactly 5 operations (`POST /event-types`, `GET /event-types`, `GET /event-types/{eventTypeId}/slots`, `POST /bookings`, `GET /bookings`)
+- [x] Confirm each operation's documented status codes are present (added `@statusCode` to error models so 400/404/409 emit as explicit responses instead of `default`)
+- [x] Confirm `EventType.id`, `Booking.id`, `Booking.createdAt` are read-only (absent from create request bodies)
 
 ### Task 7: Update documentation
 

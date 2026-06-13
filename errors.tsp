@@ -10,6 +10,9 @@ namespace CallBooking;
  */
 @error
 model ValidationError {
+  /** Bad Request — the payload failed validation. */
+  @statusCode statusCode: 400;
+
   /** Discriminating error code. */
   code: "validation_error";
 
@@ -23,6 +26,9 @@ model ValidationError {
 /** Returned when a referenced resource (e.g. an `EventType`) does not exist. */
 @error
 model NotFoundError {
+  /** Not Found — the referenced resource does not exist. */
+  @statusCode statusCode: 404;
+
   /** Discriminating error code. */
   code: "not_found";
 
@@ -36,6 +42,9 @@ model NotFoundError {
  */
 @error
 model SlotConflictError {
+  /** Conflict — the requested time overlaps an existing booking. */
+  @statusCode statusCode: 409;
+
   /** Discriminating error code. */
   code: "slot_conflict";
 
