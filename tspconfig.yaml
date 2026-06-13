@@ -1,0 +1,7 @@
+emit:
+  - "@typespec/openapi3"
+output-dir: "{cwd}/tsp-output"
+options:
+  "@typespec/openapi3":
+    emitter-output-dir: "{output-dir}/schema"
+    output-file: "openapi.yaml"

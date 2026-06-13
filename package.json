@@ -1,0 +1,17 @@
+{
+  "name": "call-booking-api",
+  "version": "1.0.0",
+  "description": "TypeSpec specification for a single-owner, Calendly-like call-booking service",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "tsp compile .",
+    "watch": "tsp compile . --watch",
+    "test": "tsp compile . --no-emit --warn-as-error"
+  },
+  "dependencies": {
+    "@typespec/compiler": "^1.12.0",
+    "@typespec/http": "^1.12.0",
+    "@typespec/openapi3": "^1.12.0"
+  }
+}
