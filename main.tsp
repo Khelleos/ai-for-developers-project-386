@@ -2,6 +2,7 @@ import "@typespec/http";
 import "@typespec/openapi3";
 import "./models.tsp";
 import "./errors.tsp";
+import "./routes/event-types.tsp";
 
 using Http;
 

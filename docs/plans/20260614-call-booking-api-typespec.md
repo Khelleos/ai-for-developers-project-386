@@ -65,10 +65,10 @@ Implement a compiling TypeSpec (`.tsp`) specification for a single-owner, Calend
 - Create: `routes/event-types.tsp` (`POST /event-types` → 201|400; `GET /event-types` → 200 `EventType[]`; `GET /event-types/{eventTypeId}/slots` with optional `@query date?: plainDate` → 200 `Slot[]`|404)
 - Modify: `main.tsp` (add `import "./routes/event-types.tsp";`)
 
-- [ ] Implement the three operations using union return types with `@statusCode` per the spec
-- [ ] Document server-side slot-generation rules (14-day window, 30-min grid, business hours, `start + duration <= 17:00`) in operation doc comments
-- [ ] Add the import to `main.tsp`
-- [ ] Run `npx tsp compile .` — must pass; confirm the 3 operations and their status codes appear in `openapi.yaml`
+- [x] Implement the three operations using union return types with `@statusCode` per the spec
+- [x] Document server-side slot-generation rules (14-day window, 30-min grid, business hours, `start + duration <= 17:00`) in operation doc comments
+- [x] Add the import to `main.tsp`
+- [x] Run `npx tsp compile .` — must pass; confirm the 3 operations and their status codes appear in `openapi.yaml`
 
 ### Task 5: Booking routes
 
