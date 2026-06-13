@@ -55,9 +55,9 @@ Implement a compiling TypeSpec (`.tsp`) specification for a single-owner, Calend
 - Create: `errors.tsp` (`@error` ValidationError, NotFoundError, SlotConflictError with their `code` literals)
 - Modify: `main.tsp` (add `import "./errors.tsp";`)
 
-- [ ] Define the three `@error` models with literal `code` fields and `message`; `ValidationError` includes optional `details?: string[]`
-- [ ] Add the import to `main.tsp`
-- [ ] Run `npx tsp compile .` — must pass; confirm error schemas appear in `openapi.yaml`
+- [x] Define the three `@error` models with literal `code` fields and `message`; `ValidationError` includes optional `details?: string[]`
+- [x] Add the import to `main.tsp`
+- [x] Run `npx tsp compile .` — must pass; confirm error schemas appear in `openapi.yaml`
 
 ### Task 4: Event-type routes
 
