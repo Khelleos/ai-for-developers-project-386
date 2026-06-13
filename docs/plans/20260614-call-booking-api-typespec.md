@@ -32,11 +32,11 @@ Implement a compiling TypeSpec (`.tsp`) specification for a single-owner, Calend
 - Create: `tspconfig.yaml`
 - Create: `main.tsp` (service shell: import `@typespec/http` + `@typespec/openapi3`, `using Http`, `@service(#{ title: "Call Booking Service" })`, `namespace CallBooking;` — no model/route imports yet)
 
-- [ ] Write `package.json` with `type: module`, `build`/`watch` scripts, and the three `^1.12.0` deps
-- [ ] Write `tspconfig.yaml` with the openapi3 emitter, `emitter-output-dir: "{output-dir}/schema"`, `output-dir: "{cwd}/tsp-output"`
-- [ ] Write minimal `main.tsp` (service + empty namespace)
-- [ ] Run `npm install`
-- [ ] Run `npx tsp compile .` — must compile with no errors and generate `tsp-output/schema/openapi.yaml`
+- [x] Write `package.json` with `type: module`, `build`/`watch` scripts, and the three `^1.12.0` deps
+- [x] Write `tspconfig.yaml` with the openapi3 emitter, `emitter-output-dir: "{output-dir}/schema"`, `output-dir: "{cwd}/tsp-output"`
+- [x] Write minimal `main.tsp` (service + empty namespace)
+- [x] Run `npm install`
+- [x] Run `npx tsp compile .` — must compile with no errors and generate `tsp-output/schema/openapi.yaml`
 
 ### Task 2: Domain models
 
