@@ -90,8 +90,8 @@ Implement a compiling TypeSpec (`.tsp`) specification for a single-owner, Calend
 
 ### Task 7: Update documentation
 
-- [ ] Update `README.md` with project description, prerequisites (Node), and the `npm install` / `npm run build` (`tsp compile .`) usage, noting the OpenAPI output path
-- [ ] Note `tsp-output/` as generated output (add a `.gitignore` entry for it if appropriate)
+- [x] Update `README.md` with project description, prerequisites (Node), and the `npm install` / `npm run build` (`tsp compile .`) usage, noting the OpenAPI output path
+- [x] Note `tsp-output/` as generated output (add a `.gitignore` entry for it if appropriate)
 
 ## Post-Completion (manual / optional)
 - Optionally open `tsp-output/schema/openapi.yaml` in Swagger Editor / Redoc to eyeball the rendered docs.
