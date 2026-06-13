@@ -3,6 +3,7 @@ import "@typespec/openapi3";
 import "./models.tsp";
 import "./errors.tsp";
 import "./routes/event-types.tsp";
+import "./routes/bookings.tsp";
 
 using Http;
 

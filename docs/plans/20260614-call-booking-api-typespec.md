@@ -76,10 +76,10 @@ Implement a compiling TypeSpec (`.tsp`) specification for a single-owner, Calend
 - Create: `routes/bookings.tsp` (`POST /bookings` → 201|400|404|409; `GET /bookings` admin upcoming list with optional `@query from?: utcDateTime` → 200 `Booking[]`)
 - Modify: `main.tsp` (add `import "./routes/bookings.tsp";`)
 
-- [ ] Implement both operations with union return types + `@statusCode`
-- [ ] Document the 409 global-overlap rule and the 400 off-grid/past/out-of-window rules in operation doc comments
-- [ ] Add the import to `main.tsp`
-- [ ] Run `npx tsp compile .` — must pass; confirm both operations and all four POST status codes appear in `openapi.yaml`
+- [x] Implement both operations with union return types + `@statusCode`
+- [x] Document the 409 global-overlap rule and the 400 off-grid/past/out-of-window rules in operation doc comments
+- [x] Add the import to `main.tsp`
+- [x] Run `npx tsp compile .` — must pass; confirm both operations and all four POST status codes appear in `openapi.yaml`
 
 ### Task 6: Verify acceptance criteria
 
