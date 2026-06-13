@@ -44,10 +44,10 @@ Implement a compiling TypeSpec (`.tsp`) specification for a single-owner, Calend
 - Create: `models.tsp` (EventType, EventTypeCreate, Slot, Guest, Booking, BookingCreate; document domain constants BUSINESS_HOURS_START/END, SLOT_STEP_MINUTES=30, BOOKING_WINDOW_DAYS=14 as doc comments)
 - Modify: `main.tsp` (add `import "./models.tsp";`)
 
-- [ ] Define models exactly per spec: `id`/`createdAt` marked `@visibility(Lifecycle.Read)`, `@minLength(1)` on titles/names, `@format("email")` on email, `@minValue(1)` on `durationMinutes`, `utcDateTime` for timestamps, optional `notes`
-- [ ] Add doc comments capturing the domain constants and slot/window semantics
-- [ ] Add the import to `main.tsp`
-- [ ] Run `npx tsp compile .` — must pass; confirm the 6 schemas appear in `openapi.yaml` and read-only fields are excluded from `*Create` payloads
+- [x] Define models exactly per spec: `id`/`createdAt` marked `@visibility(Lifecycle.Read)`, `@minLength(1)` on titles/names, `@format("email")` on email, `@minValue(1)` on `durationMinutes`, `utcDateTime` for timestamps, optional `notes`
+- [x] Add doc comments capturing the domain constants and slot/window semantics
+- [x] Add the import to `main.tsp`
+- [x] Run `npx tsp compile .` — must pass; confirm the 6 schemas appear in `openapi.yaml` and read-only fields are excluded from `*Create` payloads
 
 ### Task 3: Error models
 
