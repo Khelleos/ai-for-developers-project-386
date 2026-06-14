@@ -121,10 +121,10 @@ fully decoupled from the root TypeSpec project.
 - Modify: `frontend/src/App.tsx` (routes)
 - Create test: `frontend/src/pages/BookingsPage.test.tsx`
 
-- [ ] App layout with nav: Event Types, Bookings; wire React Router routes (`/`, `/event-types/:id/book`, `/bookings`)
-- [ ] Upcoming bookings list ordered by start (event type, guest, time, notes) with loading/empty/error states; uses `from` defaulting to now
-- [ ] Write tests: routing renders correct page; bookings list renders from MSW
-- [ ] run `npm test` inside `frontend/` - must pass before task 7
+- [x] App layout with nav: Event Types, Bookings; wire React Router routes (`/`, `/event-types/:id/book`, `/bookings`)
+- [x] Upcoming bookings list ordered by start (event type, guest, time, notes) with loading/empty/error states; uses `from` defaulting to now
+- [x] Write tests: routing renders correct page; bookings list renders from MSW
+- [x] run `npm test` inside `frontend/` - must pass before task 7
 
 ### Task 7: Verify acceptance criteria
 

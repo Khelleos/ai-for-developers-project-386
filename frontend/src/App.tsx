@@ -1,21 +1,31 @@
-import { AppShell, Container, Title, Text } from "@mantine/core";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import { AppLayout } from "./components/AppLayout";
+import { EventTypesPage } from "./pages/EventTypesPage";
+import { BookEventTypePage } from "./pages/BookEventTypePage";
+import { BookingsPage } from "./pages/BookingsPage";
 
 /**
- * Minimal application shell. Routing and pages are wired up in later tasks.
+ * Route tree for the app, mounted under the shared {@link AppLayout}. Exported
+ * separately from {@link App} so tests can drive it with a `MemoryRouter`.
  */
+export function AppRoutes() {
+  return (
+    <Routes>
+      <Route element={<AppLayout />}>
+        <Route index element={<EventTypesPage />} />
+        <Route path="event-types/:id/book" element={<BookEventTypePage />} />
+        <Route path="bookings" element={<BookingsPage />} />
+      </Route>
+    </Routes>
+  );
+}
+
+/** App root: wires the route tree into a browser history router. */
 export default function App() {
   return (
-    <AppShell header={{ height: 60 }} padding="md">
-      <AppShell.Header>
-        <Container size="lg" h="100%" style={{ display: "flex", alignItems: "center" }}>
-          <Title order={3}>Call Booking</Title>
-        </Container>
-      </AppShell.Header>
-      <AppShell.Main>
-        <Container size="lg">
-          <Text>Book a call with the owner.</Text>
-        </Container>
-      </AppShell.Main>
-    </AppShell>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   );
 }
