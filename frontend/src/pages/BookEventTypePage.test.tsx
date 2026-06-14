@@ -67,6 +67,47 @@ describe("BookEventTypePage", () => {
     ).toBeInTheDocument();
   });
 
+  it("shows an empty-state message when the day has no slots", async () => {
+    server.use(
+      http.get(url("/event-types/:id/slots"), () => HttpResponse.json([])),
+    );
+
+    renderPage();
+
+    expect(
+      await screen.findByText(/no available slots for this day/i),
+    ).toBeInTheDocument();
+  });
+
+  it("blocks submission and shows validation errors for invalid guest details", async () => {
+    const user = userEvent.setup();
+    let posted = false;
+    server.use(
+      http.get(url("/event-types/:id/slots"), () =>
+        HttpResponse.json([sampleSlot]),
+      ),
+      http.post(url("/bookings"), () => {
+        posted = true;
+        return HttpResponse.json(sampleBooking, { status: 201 });
+      }),
+    );
+
+    renderPage();
+
+    await user.click(
+      await screen.findByRole("button", { name: /09:00 – 09:30/ }),
+    );
+    // Leave name blank and enter a malformed email, then submit.
+    await user.type(screen.getByLabelText(/email/i), "not-an-email");
+    await user.click(screen.getByRole("button", { name: /confirm booking/i }));
+
+    expect(await screen.findByText(/name is required/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/enter a valid email address/i),
+    ).toBeInTheDocument();
+    expect(posted).toBe(false);
+  });
+
   it("shows a not-found message for an unknown event type", async () => {
     server.use(
       http.get(url("/event-types/:id/slots"), () =>
