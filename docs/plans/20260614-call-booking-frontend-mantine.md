@@ -71,12 +71,12 @@ fully decoupled from the root TypeSpec project.
 - Create: `frontend/src/api/schema.ts` (generated), `frontend/src/api/client.ts`, `frontend/src/api/types.ts`
 - Modify: `frontend/package.json` (gen:api script)
 
-- [ ] Add `gen:api` script running `openapi-typescript` against `../tsp-output/schema/openapi.yaml` into `src/api/schema.ts`
-- [ ] Build an `openapi-fetch` client in `client.ts` using the base URL from `config.ts`
-- [ ] Add an error-normalizing helper that maps non-2xx responses to typed errors (validation_error/not_found/slot_conflict) for the UI to consume
-- [ ] Export convenience types (EventType, Slot, Booking, *Create) in `types.ts`
-- [ ] Write tests for the error-normalizing helper (400/404/409 → typed error objects) using mocked responses
-- [ ] run `npm test` inside `frontend/` - must pass before task 3
+- [x] Add `gen:api` script running `openapi-typescript` against `../tsp-output/schema/openapi.yaml` into `src/api/schema.ts`
+- [x] Build an `openapi-fetch` client in `client.ts` using the base URL from `config.ts`
+- [x] Add an error-normalizing helper that maps non-2xx responses to typed errors (validation_error/not_found/slot_conflict) for the UI to consume
+- [x] Export convenience types (EventType, Slot, Booking, *Create) in `types.ts`
+- [x] Write tests for the error-normalizing helper (400/404/409 → typed error objects) using mocked responses
+- [x] run `npm test` inside `frontend/` - must pass before task 3
 
 ### Task 3: Data layer — TanStack Query hooks
 
