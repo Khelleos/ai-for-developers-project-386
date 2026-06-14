@@ -18,6 +18,7 @@ export default defineConfig({
         "vitest.setup.ts",
         "src/api/schema.ts",
         "**/*.test.{ts,tsx}",
+        "dist/**",
       ],
     },
   },

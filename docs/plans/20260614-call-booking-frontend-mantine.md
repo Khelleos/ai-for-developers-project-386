@@ -128,9 +128,9 @@ fully decoupled from the root TypeSpec project.
 
 ### Task 7: Verify acceptance criteria
 
-- [ ] run full test suite: `npm test` inside `frontend/`
-- [ ] run typecheck/build: `npm run build` inside `frontend/` (tsc + vite build must pass)
-- [ ] verify test coverage meets 80%+ (`vitest run --coverage`)
+- [x] run full test suite: `npm test` inside `frontend/`
+- [x] run typecheck/build: `npm run build` inside `frontend/` (tsc + vite build must pass)
+- [x] verify test coverage meets 80%+ (`vitest run --coverage`)
 
 ### Task 8: Update documentation
 
