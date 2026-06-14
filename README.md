@@ -55,3 +55,24 @@ tsp-output/schema/openapi.yaml
 - `routes/event-types.tsp` — event-type operations
 - `routes/bookings.tsp` — booking operations
 - `tspconfig.yaml` — openapi3 emitter configuration
+
+## Frontend
+
+A separate, contract-driven React app lives under `frontend/` with its own
+`package.json`, fully decoupled from this TypeSpec project. It consumes the API
+over HTTP and derives its types from the emitted `tsp-output/schema/openapi.yaml`
+(via `openapi-typescript` + `openapi-fetch`) rather than hand-writing them.
+
+Stack: Vite + React + TypeScript, Mantine UI, TanStack Query, React Router;
+tested with Vitest + React Testing Library + MSW.
+
+Quick start (from the repo root):
+
+1. `npm run build` — emit the OpenAPI contract.
+2. `cd frontend && npm install`
+3. `npm run gen:api` — regenerate the typed client from the contract.
+4. `npm run mock` — serve a Prism mock of the contract on port 4010.
+5. `npm run dev` — start the dev server (reads `VITE_API_BASE_URL`, default
+   `http://localhost:4010`).
+
+See `frontend/README.md` for full details.

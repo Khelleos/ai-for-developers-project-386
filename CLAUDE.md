@@ -46,3 +46,18 @@ Conventions to follow:
 Business hours 09:00–17:00 (owner-local), 30-minute slot grid, rolling 14-day
 booking window, and a global one-call-at-a-time overlap rule (the owner can
 attend only one call at a time, checked across all event types).
+
+## Frontend (`frontend/`)
+
+A separate, contract-driven React app (Vite + TypeScript + Mantine) lives under
+`frontend/` with its own `package.json` — fully decoupled from this TypeSpec
+project, sharing no runtime. It consumes the API purely over HTTP and derives
+its types from the emitted `tsp-output/schema/openapi.yaml` rather than
+hand-writing them (`openapi-typescript` + `openapi-fetch`).
+
+Workflow: `npm run build` at the repo root emits the OpenAPI; then inside
+`frontend/`, `npm run gen:api` regenerates the typed client, `npm run mock`
+serves a Prism mock of the same document on port 4010, and `npm run dev` starts
+the dev server against it. This satisfies the "works with a separately running
+backend" requirement without a real server. See `frontend/README.md` for
+details.
