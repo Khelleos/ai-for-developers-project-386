@@ -107,12 +107,12 @@ fully decoupled from the root TypeSpec project.
 - Create: `frontend/src/pages/BookEventTypePage.tsx`, `frontend/src/components/SlotPicker.tsx`, `frontend/src/components/BookingForm.tsx`
 - Create test: `frontend/src/pages/BookEventTypePage.test.tsx`
 
-- [ ] Date picker (`@mantine/dates`) constrained to the rolling 14-day window; passes `date` to the slots query
-- [ ] Render available slots; handle empty (no slots) and 404 (unknown event type)
-- [ ] Booking form (guest name, email, optional notes) submitting the selected slot's `start` + `eventTypeId`
-- [ ] Handle responses: 201 success confirmation, 400 validation, 404 not found, 409 slot conflict (prompt to pick another slot + refetch slots)
-- [ ] Write tests: slot list renders, successful booking, and a 409 conflict path
-- [ ] run `npm test` inside `frontend/` - must pass before task 6
+- [x] Date picker (`@mantine/dates`) constrained to the rolling 14-day window; passes `date` to the slots query
+- [x] Render available slots; handle empty (no slots) and 404 (unknown event type)
+- [x] Booking form (guest name, email, optional notes) submitting the selected slot's `start` + `eventTypeId`
+- [x] Handle responses: 201 success confirmation, 400 validation, 404 not found, 409 slot conflict (prompt to pick another slot + refetch slots)
+- [x] Write tests: slot list renders, successful booking, and a 409 conflict path
+- [x] run `npm test` inside `frontend/` - must pass before task 6
 
 ### Task 6: Owner bookings page + routing/layout
 
