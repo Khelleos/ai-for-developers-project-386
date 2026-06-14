@@ -134,8 +134,8 @@ fully decoupled from the root TypeSpec project.
 
 ### Task 8: Update documentation
 
-- [ ] Add `frontend/README.md`: how to generate the contract (`npm run build` at repo root), run the Prism mock (`npm run mock`), generate types (`npm run gen:api`), and start the dev server
-- [ ] Update root `CLAUDE.md` to note the new `frontend/` app and its contract-driven, separately-running-backend workflow
+- [x] Add `frontend/README.md`: how to generate the contract (`npm run build` at repo root), run the Prism mock (`npm run mock`), generate types (`npm run gen:api`), and start the dev server
+- [x] Update root `CLAUDE.md` to note the new `frontend/` app and its contract-driven, separately-running-backend workflow
 
 ## Post-Completion (manual verification)
 - Run `npm run build` at repo root to emit the OpenAPI, then in `frontend/`:
