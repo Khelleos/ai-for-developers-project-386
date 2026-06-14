@@ -95,11 +95,11 @@ fully decoupled from the root TypeSpec project.
 - Create: `frontend/src/pages/EventTypesPage.tsx`, `frontend/src/components/EventTypeForm.tsx`, `frontend/src/components/EventTypeCard.tsx`
 - Create test: `frontend/src/pages/EventTypesPage.test.tsx`
 
-- [ ] List event types (title, duration, description) with loading/empty/error states
-- [ ] Create-event-type form (`@mantine/form`) with client-side validation mirroring the contract (non-empty title, durationMinutes ≥ 1); show 400 field errors from the API
-- [ ] Link each event type to its booking page
-- [ ] Write tests: renders list from MSW, submits valid form (success), surfaces a 400 validation error
-- [ ] run `npm test` inside `frontend/` - must pass before task 5
+- [x] List event types (title, duration, description) with loading/empty/error states
+- [x] Create-event-type form (`@mantine/form`) with client-side validation mirroring the contract (non-empty title, durationMinutes ≥ 1); show 400 field errors from the API
+- [x] Link each event type to its booking page
+- [x] Write tests: renders list from MSW, submits valid form (success), surfaces a 400 validation error
+- [x] run `npm test` inside `frontend/` - must pass before task 5
 
 ### Task 5: Slot discovery + booking flow
 
