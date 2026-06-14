@@ -18,7 +18,14 @@ import type {
   ValidationError,
 } from "./types";
 
-export const apiClient = createClient<paths>({ baseUrl: API_BASE_URL });
+export const apiClient = createClient<paths>({
+  baseUrl: API_BASE_URL,
+  // Resolve `globalThis.fetch` per request instead of letting openapi-fetch
+  // capture it at construction time. The client is built at module load, before
+  // test interceptors (MSW) swap in their patched global fetch; deferring the
+  // lookup lets those interceptors take effect while staying a no-op in prod.
+  fetch: (...args) => fetch(...args),
+});
 
 /** Discriminating codes the UI branches on, plus a fallback. */
 export type ApiErrorCode =

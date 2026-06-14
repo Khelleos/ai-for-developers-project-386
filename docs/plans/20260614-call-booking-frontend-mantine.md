@@ -84,10 +84,10 @@ fully decoupled from the root TypeSpec project.
 - Create: `frontend/src/api/queries.ts` (or `hooks/` per resource)
 - Create test: `frontend/src/api/queries.test.tsx`
 
-- [ ] Add query hooks: `useEventTypes`, `useSlots(eventTypeId, date)`, `useBookings(from)`
-- [ ] Add mutation hooks: `useCreateEventType`, `useCreateBooking` with cache invalidation (refetch slots + bookings after a booking)
-- [ ] Write tests with MSW stubbing each endpoint, asserting hooks return mapped data and surface typed errors
-- [ ] run `npm test` inside `frontend/` - must pass before task 4
+- [x] Add query hooks: `useEventTypes`, `useSlots(eventTypeId, date)`, `useBookings(from)`
+- [x] Add mutation hooks: `useCreateEventType`, `useCreateBooking` with cache invalidation (refetch slots + bookings after a booking)
+- [x] Write tests with MSW stubbing each endpoint, asserting hooks return mapped data and surface typed errors
+- [x] run `npm test` inside `frontend/` - must pass before task 4
 
 ### Task 4: Event Types page (list + create)
 
