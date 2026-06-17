@@ -7,14 +7,18 @@ Mirrors the ``EventTypes`` namespace from ``routes/event-types.tsp``:
   ``app.main``).
 - ``GET /event-types`` → 200 with every stored event type.
 
-Slot discovery (``GET /event-types/{id}/slots``) is added in a later task.
+- ``GET /event-types/{eventTypeId}/slots`` → 200 with available slots
+  (optionally narrowed to a single day via ``date``); 404 when the event type
+  does not exist.
 """
+
+from datetime import date as _date, datetime, timezone
 
 from fastapi import APIRouter
 
-from app import storage
-from app.errors import ValidationErrorResponse
-from app.models import EventType, EventTypeCreate
+from app import booking_rules, storage
+from app.errors import NotFoundError, NotFoundErrorResponse, ValidationErrorResponse
+from app.models import EventType, EventTypeCreate, Slot
 
 router = APIRouter(prefix="/event-types", tags=["event-types"])
 
@@ -34,3 +38,21 @@ def create_event_type(payload: EventTypeCreate) -> EventType:
 def list_event_types() -> list[EventType]:
     """Return every event type the owner has defined."""
     return storage.list_event_types()
+
+
+@router.get(
+    "/{event_type_id}/slots",
+    response_model=list[Slot],
+    responses={404: {"model": NotFoundErrorResponse}},
+)
+def list_slots(event_type_id: str, date: _date | None = None) -> list[Slot]:
+    """Return available slots for an event type, optionally for one day."""
+    event_type = storage.get_event_type(event_type_id)
+    if event_type is None:
+        raise NotFoundError(f"Event type '{event_type_id}' not found.")
+    return booking_rules.generate_slots(
+        duration_minutes=event_type.duration_minutes,
+        bookings=storage.list_bookings(),
+        now=datetime.now(timezone.utc),
+        on_date=date,
+    )
