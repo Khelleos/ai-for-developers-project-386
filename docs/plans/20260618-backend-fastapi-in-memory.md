@@ -53,12 +53,12 @@
 - Create: `backend/pyproject.toml` (или `pytest.ini`), `backend/.gitignore`
 - Create: `backend/tests/__init__.py`, `backend/tests/conftest.py`
 
-- [ ] Создать структуру каталога `backend/` и `requirements.txt`
-- [ ] `config.py`: константы BUSINESS_HOURS_START=9, BUSINESS_HOURS_END=17, SLOT_STEP_MINUTES=30, BOOKING_WINDOW_DAYS=14, настраиваемый порт и CORS-origin
-- [ ] `main.py`: создать FastAPI-приложение, подключить CORS (allow фронтенд-origin), заглушки роутеров
-- [ ] `conftest.py`: фикстура TestClient со сбросом in-memory хранилища между тестами
-- [ ] Написать smoke-тест (приложение поднимается, `/openapi.json` доступен)
-- [ ] Прогнать pytest — должен пройти перед Task 2
+- [x] Создать структуру каталога `backend/` и `requirements.txt`
+- [x] `config.py`: константы BUSINESS_HOURS_START=9, BUSINESS_HOURS_END=17, SLOT_STEP_MINUTES=30, BOOKING_WINDOW_DAYS=14, настраиваемый порт и CORS-origin
+- [x] `main.py`: создать FastAPI-приложение, подключить CORS (allow фронтенд-origin), заглушки роутеров
+- [x] `conftest.py`: фикстура TestClient со сбросом in-memory хранилища между тестами
+- [x] Написать smoke-тест (приложение поднимается, `/openapi.json` доступен)
+- [x] Прогнать pytest — должен пройти перед Task 2
 
 ### Task 2: Доменные модели, хранилище и обработка ошибок
 
