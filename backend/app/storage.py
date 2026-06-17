@@ -6,6 +6,7 @@ and reset between tests via :func:`reset`. Server-assigned fields (``id``,
 ``app.booking_rules`` (later tasks); this module only persists records.
 """
 
+import threading
 from datetime import datetime, timezone
 from uuid import uuid4
 
@@ -13,6 +14,12 @@ from app.models import Booking, EventType, EventTypeCreate, Guest
 
 _event_types: dict[str, EventType] = {}
 _bookings: dict[str, Booking] = {}
+
+# Guards the booking conflict-check + insert as one critical section. FastAPI
+# runs sync endpoints in a threadpool, so without this two concurrent
+# POST /bookings could both pass the overlap check and both insert, breaking
+# the global one-call-at-a-time rule. Callers hold this around check-then-create.
+booking_lock = threading.Lock()
 
 
 def reset() -> None:

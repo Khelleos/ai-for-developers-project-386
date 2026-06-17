@@ -70,19 +70,22 @@ def create_booking(payload: BookingCreate) -> Booking:
             "start must be within the rolling 14-day booking window."
         )
 
-    conflict = booking_rules.find_conflict(start, end, storage.list_bookings())
-    if conflict is not None:
-        raise SlotConflictError(
-            "The requested time overlaps an existing booking."
-        )
+    # Hold the lock across check-then-create so concurrent requests can't both
+    # pass the overlap check and insert (the global one-call-at-a-time rule).
+    with storage.booking_lock:
+        conflict = booking_rules.find_conflict(start, end, storage.list_bookings())
+        if conflict is not None:
+            raise SlotConflictError(
+                "The requested time overlaps an existing booking."
+            )
 
-    return storage.create_booking(
-        event_type_id=payload.event_type_id,
-        guest=payload.guest,
-        start=start,
-        end=end,
-        notes=payload.notes,
-    )
+        return storage.create_booking(
+            event_type_id=payload.event_type_id,
+            guest=payload.guest,
+            start=start,
+            end=end,
+            notes=payload.notes,
+        )
 
 
 @router.get("", response_model=list[Booking])
