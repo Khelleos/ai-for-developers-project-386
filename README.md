@@ -4,8 +4,11 @@
 # Call-Booking API — TypeSpec Specification
 
 A [TypeSpec](https://typespec.io/) specification for a single-owner, Calendly-like
-call-booking service. The project is design-only (no backend runtime, no auth): it
-describes the domain models, errors, and HTTP API and emits an OpenAPI 3 document.
+call-booking service. The TypeSpec spec itself is design-only (no runtime, no auth):
+it describes the domain models, errors, and HTTP API and emits an OpenAPI 3 document.
+Two decoupled apps consume that contract — a React frontend (`frontend/`) and an
+in-memory Python backend (`backend/`) that enforces the business rules server-side
+(see below). There is still no auth.
 
 The API exposes 5 operations:
 
@@ -76,3 +79,26 @@ Quick start (from the repo root):
    `http://localhost:4010`).
 
 See `frontend/README.md` for full details.
+
+## Backend
+
+A separate, contract-driven Python service lives under `backend/` with its own
+environment, fully decoupled from this TypeSpec project. Unlike the spec (which
+only documents business rules in prose), it is an in-memory implementation that
+enforces them server-side: slot math, the rolling 14-day window, and the global
+one-call-at-a-time overlap rule (checked across all event types). Data is lost on
+restart; owner-local time is treated as UTC for deterministic slot math.
+
+Stack: Python 3.11+, FastAPI, Pydantic (email validation), Uvicorn; tested with
+pytest + FastAPI TestClient + pytest-cov.
+
+Quick start (from `backend/`):
+
+1. `python -m venv .venv` and activate it.
+2. `pip install -r requirements.txt`
+3. `uvicorn app.main:app --reload --port 8000` — docs at `http://localhost:8000/docs`.
+4. `pytest` (or `pytest --cov`) to run the suite.
+
+To drive the frontend against it instead of the Prism mock, set
+`VITE_API_BASE_URL=http://localhost:8000` and ensure the backend's `CORS_ORIGINS`
+includes the frontend origin. See `backend/README.md` for full details.

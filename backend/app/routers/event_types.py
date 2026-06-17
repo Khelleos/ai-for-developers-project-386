@@ -13,8 +13,9 @@ Mirrors the ``EventTypes`` namespace from ``routes/event-types.tsp``:
 """
 
 from datetime import date as _date, datetime, timezone
+from typing import Annotated
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Path
 
 from app import booking_rules, storage
 from app.errors import NotFoundError, NotFoundErrorResponse, ValidationErrorResponse
@@ -41,11 +42,14 @@ def list_event_types() -> list[EventType]:
 
 
 @router.get(
-    "/{event_type_id}/slots",
+    "/{eventTypeId}/slots",
     response_model=list[Slot],
     responses={404: {"model": NotFoundErrorResponse}},
 )
-def list_slots(event_type_id: str, date: _date | None = None) -> list[Slot]:
+def list_slots(
+    event_type_id: Annotated[str, Path(alias="eventTypeId")],
+    date: _date | None = None,
+) -> list[Slot]:
     """Return available slots for an event type, optionally for one day."""
     event_type = storage.get_event_type(event_type_id)
     if event_type is None:

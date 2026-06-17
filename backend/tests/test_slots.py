@@ -107,6 +107,58 @@ def test_partial_overlap_excludes_both_touching_slots():
     assert datetime(2030, 1, 1, 10, 0, tzinfo=UTC) in starts
 
 
+def test_long_booking_excludes_every_interior_slot():
+    # A 90-min booking at 09:00 spans 09:00, 09:30, 10:00; 10:30 is free again.
+    booking = _booking(
+        datetime(2030, 1, 1, 9, 0, tzinfo=UTC),
+        datetime(2030, 1, 1, 10, 30, tzinfo=UTC),
+    )
+    slots = booking_rules.generate_slots(
+        duration_minutes=30, bookings=[booking], now=NOW, on_date=TODAY
+    )
+    starts = [slot.start for slot in slots]
+    for hour, minute in ((9, 0), (9, 30), (10, 0)):
+        assert datetime(2030, 1, 1, hour, minute, tzinfo=UTC) not in starts
+    assert datetime(2030, 1, 1, 10, 30, tzinfo=UTC) in starts
+
+
+# --- is_on_grid boundary rules (direct unit tests) ---
+
+
+def test_is_on_grid_accepts_valid_start():
+    assert booking_rules.is_on_grid(datetime(2030, 1, 1, 9, 0, tzinfo=UTC), 30)
+    assert booking_rules.is_on_grid(datetime(2030, 1, 1, 16, 30, tzinfo=UTC), 30)
+
+
+def test_is_on_grid_rejects_sub_minute_components():
+    assert not booking_rules.is_on_grid(
+        datetime(2030, 1, 1, 9, 0, 30, tzinfo=UTC), 30
+    )
+    assert not booking_rules.is_on_grid(
+        datetime(2030, 1, 1, 9, 0, 0, 1, tzinfo=UTC), 30
+    )
+
+
+def test_is_on_grid_rejects_before_business_hours():
+    # 08:30 is on the 30-min grid but before the 09:00 open.
+    assert not booking_rules.is_on_grid(
+        datetime(2030, 1, 1, 8, 30, tzinfo=UTC), 30
+    )
+
+
+def test_is_on_grid_rejects_off_grid_minute():
+    assert not booking_rules.is_on_grid(
+        datetime(2030, 1, 1, 9, 15, tzinfo=UTC), 30
+    )
+
+
+def test_is_on_grid_rejects_duration_overrunning_close():
+    # 16:30 is on-grid, but a 60-min call would end at 17:30, past 17:00.
+    assert not booking_rules.is_on_grid(
+        datetime(2030, 1, 1, 16, 30, tzinfo=UTC), 60
+    )
+
+
 # --- Endpoint integration ---
 
 
@@ -131,7 +183,10 @@ def test_list_slots_happy_path(client):
     assert response.status_code == 200
     body = response.json()
     assert len(body) == 16
-    assert body[0]["start"].endswith("09:00:00Z") or "T09:00:00" in body[0]["start"]
+    day = datetime.now(timezone.utc).date() + timedelta(days=5)
+    assert datetime.fromisoformat(body[0]["start"]) == datetime(
+        day.year, day.month, day.day, 9, 0, tzinfo=UTC
+    )
 
 
 def test_list_slots_excludes_booked_slot(client):

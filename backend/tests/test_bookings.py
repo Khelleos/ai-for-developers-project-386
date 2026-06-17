@@ -45,6 +45,49 @@ def test_create_booking_happy_path(client):
     ) == timedelta(minutes=30)
 
 
+def test_create_booking_normalizes_non_utc_offset(client):
+    # 11:00+02:00 is 09:00 UTC: on-grid once normalized, so it must be accepted
+    # and stored as the UTC instant (owner-local time is treated as UTC).
+    event_type = _create_event_type(client, duration_minutes=30)
+    day = datetime.now(UTC).date() + timedelta(days=5)
+    start = datetime(
+        day.year, day.month, day.day, 11, 0, tzinfo=timezone(timedelta(hours=2))
+    )
+    response = client.post(
+        "/bookings",
+        json={
+            "eventTypeId": event_type["id"],
+            "guest": _guest(),
+            "start": start.isoformat(),
+        },
+    )
+    assert response.status_code == 201
+    body = response.json()
+    assert datetime.fromisoformat(body["start"]) == datetime(
+        day.year, day.month, day.day, 9, 0, tzinfo=UTC
+    )
+
+
+def test_create_booking_treats_naive_start_as_utc(client):
+    # A naive timestamp (no offset) is assumed UTC, so 09:00 is on-grid.
+    event_type = _create_event_type(client, duration_minutes=30)
+    day = datetime.now(UTC).date() + timedelta(days=5)
+    naive = datetime(day.year, day.month, day.day, 9, 0)  # no tzinfo
+    response = client.post(
+        "/bookings",
+        json={
+            "eventTypeId": event_type["id"],
+            "guest": _guest(),
+            "start": naive.isoformat(),
+        },
+    )
+    assert response.status_code == 201
+    body = response.json()
+    assert datetime.fromisoformat(body["start"]) == datetime(
+        day.year, day.month, day.day, 9, 0, tzinfo=UTC
+    )
+
+
 def test_create_booking_unknown_event_type_returns_404(client):
     response = client.post(
         "/bookings",
@@ -69,25 +112,33 @@ def test_create_booking_off_grid_returns_400(client):
         },
     )
     assert response.status_code == 400
-    assert response.json()["code"] == "validation_error"
+    body = response.json()
+    assert body["code"] == "validation_error"
+    # Pin the off-grid branch, not just "some 400".
+    assert "grid" in body["message"]
 
 
-def test_create_booking_outside_business_hours_returns_400(client):
-    event_type = _create_event_type(client, duration_minutes=30)
-    # 16:45 + 30 min runs past 17:00.
+def test_create_booking_overruns_business_hours_returns_400(client):
+    # 16:30 is on-grid, but a 60-min call from there runs past 17:00, so it
+    # fails the duration-fits-before-close branch (distinct from off-grid).
+    event_type = _create_event_type(client, duration_minutes=60)
     response = client.post(
         "/bookings",
         json={
             "eventTypeId": event_type["id"],
             "guest": _guest(),
-            "start": _future_start(hour=16, minute=45).isoformat(),
+            "start": _future_start(hour=16, minute=30).isoformat(),
         },
     )
     assert response.status_code == 400
-    assert response.json()["code"] == "validation_error"
+    body = response.json()
+    assert body["code"] == "validation_error"
+    assert "business hours" in body["message"]
 
 
 def test_create_booking_in_the_past_returns_400(client):
+    # On-grid 09:00 on a past date: grid passes, so the past-check fires first
+    # (before the window check) — the message pins that branch.
     event_type = _create_event_type(client)
     response = client.post(
         "/bookings",
@@ -98,7 +149,9 @@ def test_create_booking_in_the_past_returns_400(client):
         },
     )
     assert response.status_code == 400
-    assert response.json()["code"] == "validation_error"
+    body = response.json()
+    assert body["code"] == "validation_error"
+    assert "future" in body["message"]
 
 
 def test_create_booking_out_of_window_returns_400(client):
@@ -112,7 +165,9 @@ def test_create_booking_out_of_window_returns_400(client):
         },
     )
     assert response.status_code == 400
-    assert response.json()["code"] == "validation_error"
+    body = response.json()
+    assert body["code"] == "validation_error"
+    assert "window" in body["message"]
 
 
 def test_create_booking_invalid_payload_returns_400(client):
