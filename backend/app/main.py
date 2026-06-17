@@ -61,7 +61,8 @@ app.add_middleware(
 
 register_exception_handlers(app)
 
-# Concrete routers. Bookings (and slot discovery) are mounted in later tasks.
-from app.routers import event_types  # noqa: E402
+# Concrete routers.
+from app.routers import bookings, event_types  # noqa: E402
 
 app.include_router(event_types.router)
+app.include_router(bookings.router)

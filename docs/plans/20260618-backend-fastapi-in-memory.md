@@ -101,11 +101,11 @@
 - Create: `backend/app/routers/bookings.py`
 - Modify: `backend/app/main.py`, `backend/app/booking_rules.py`
 
-- [ ] `POST /bookings`: вывести `end` из длительности event type, ре-валидировать; 400 (off-grid/в прошлом/вне окна/невалидный payload), 404 (неизвестный eventTypeId), **409 при пересечении с существующим бронированием** (глобальное правило «один звонок одновременно»); 201 с созданным Booking
-- [ ] `GET /bookings?from=` → 200, отсортировано по start, фильтр по `from` (по умолчанию «сейчас»)
-- [ ] Подключить роутер в `main.py`
-- [ ] Тесты: happy-path создание, **409 при занятом слоте** (точное и частичное пересечение), 400 для off-grid/past/out-of-window, 404 неизвестный event type, list с сортировкой и фильтром `from`
-- [ ] Прогнать pytest — должен пройти перед Task 6
+- [x] `POST /bookings`: вывести `end` из длительности event type, ре-валидировать; 400 (off-grid/в прошлом/вне окна/невалидный payload), 404 (неизвестный eventTypeId), **409 при пересечении с существующим бронированием** (глобальное правило «один звонок одновременно»); 201 с созданным Booking
+- [x] `GET /bookings?from=` → 200, отсортировано по start, фильтр по `from` (по умолчанию «сейчас»)
+- [x] Подключить роутер в `main.py`
+- [x] Тесты: happy-path создание, **409 при занятом слоте** (точное и частичное пересечение), 400 для off-grid/past/out-of-window, 404 неизвестный event type, list с сортировкой и фильтром `from`
+- [x] Прогнать pytest — должен пройти перед Task 6
 
 ### Task 6: Verify acceptance criteria
 

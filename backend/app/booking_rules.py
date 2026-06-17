@@ -37,6 +37,45 @@ def overlaps(start: datetime, end: datetime, booking: Booking) -> bool:
     return start < booking.end and booking.start < end
 
 
+def find_conflict(
+    start: datetime, end: datetime, bookings: list[Booking]
+) -> Booking | None:
+    """Return the first booking that overlaps ``[start, end)``, or ``None``.
+
+    Overlap is checked globally across all event types (the single owner can
+    attend only one call at a time).
+    """
+    for booking in bookings:
+        if overlaps(start, end, booking):
+            return booking
+    return None
+
+
+def is_on_grid(start: datetime, duration_minutes: int) -> bool:
+    """Return ``True`` when ``start`` is a valid slot start for the duration.
+
+    A valid start sits on the 30-minute grid within business hours such that
+    ``start + durationMinutes <= 17:00`` (no seconds/microseconds component).
+    """
+    if start.second or start.microsecond:
+        return False
+    minute_of_day = start.hour * 60 + start.minute
+    start_minute = config.BUSINESS_HOURS_START * 60
+    end_minute = config.BUSINESS_HOURS_END * 60
+    if minute_of_day < start_minute:
+        return False
+    if (minute_of_day - start_minute) % config.SLOT_STEP_MINUTES != 0:
+        return False
+    return minute_of_day + duration_minutes <= end_minute
+
+
+def is_within_window(start: datetime, now: datetime) -> bool:
+    """Return ``True`` when ``start``'s day is inside the rolling 14-day window."""
+    today = now.date()
+    window_end = today + timedelta(days=config.BOOKING_WINDOW_DAYS)
+    return today <= start.date() < window_end
+
+
 def _window_days(now: datetime, on_date: date | None) -> list[date]:
     """Days to generate slots for, within the rolling booking window."""
     today = now.date()
