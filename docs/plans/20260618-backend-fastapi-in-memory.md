@@ -78,11 +78,11 @@
 - Create: `backend/app/routers/event_types.py`, `backend/app/routers/__init__.py`
 - Modify: `backend/app/main.py`
 
-- [ ] `POST /event-types` → 201 с созданным EventType; 400 при невалидном payload
-- [ ] `GET /event-types` → 200 со списком всех event types
-- [ ] Подключить роутер в `main.py`
-- [ ] Тесты: создание (happy path), 400 на пустой title / неположительную длительность, list возвращает созданные
-- [ ] Прогнать pytest — должен пройти перед Task 4
+- [x] `POST /event-types` → 201 с созданным EventType; 400 при невалидном payload
+- [x] `GET /event-types` → 200 со списком всех event types
+- [x] Подключить роутер в `main.py`
+- [x] Тесты: создание (happy path), 400 на пустой title / неположительную длительность, list возвращает созданные
+- [x] Прогнать pytest — должен пройти перед Task 4
 
 ### Task 4: Генерация слотов + endpoint listSlots
 

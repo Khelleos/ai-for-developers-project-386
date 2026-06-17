@@ -61,8 +61,7 @@ app.add_middleware(
 
 register_exception_handlers(app)
 
-# Router stubs — concrete routers are mounted in later tasks
-# (event types, bookings). Imported and included here once implemented:
-#   from app.routers import event_types, bookings
-#   app.include_router(event_types.router)
-#   app.include_router(bookings.router)
+# Concrete routers. Bookings (and slot discovery) are mounted in later tasks.
+from app.routers import event_types  # noqa: E402
+
+app.include_router(event_types.router)
