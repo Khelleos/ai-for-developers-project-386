@@ -116,5 +116,5 @@
 
 ### Task 7: Update documentation
 
-- [ ] Создать `backend/README.md`: стек, запуск (`uvicorn`), порт/CORS, как направить фронтенд (`VITE_API_BASE_URL`) на бэкенд, запуск тестов
-- [ ] Обновить `CLAUDE.md`: добавить раздел про `backend/` (Python + FastAPI, in-memory, реализация по контракту, рабочий процесс с фронтендом)
+- [x] Создать `backend/README.md`: стек, запуск (`uvicorn`), порт/CORS, как направить фронтенд (`VITE_API_BASE_URL`) на бэкенд, запуск тестов
+- [x] Обновить `CLAUDE.md`: добавить раздел про `backend/` (Python + FastAPI, in-memory, реализация по контракту, рабочий процесс с фронтендом)
