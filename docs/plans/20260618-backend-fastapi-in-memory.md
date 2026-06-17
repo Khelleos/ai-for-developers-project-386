@@ -66,11 +66,11 @@
 - Create: `backend/app/models.py`, `backend/app/storage.py`, `backend/app/errors.py`
 - Modify: `backend/app/main.py`
 
-- [ ] `models.py`: Pydantic-модели EventType, EventTypeCreate, Slot, Guest, Booking, BookingCreate — поля/валидаторы по контракту (minLength≥1, durationMinutes≥1, email-формат)
-- [ ] `storage.py`: in-memory репозиторий (dict) для event types и bookings + генерация id и createdAt
-- [ ] `errors.py`: доменные исключения и Pydantic-модели ответов ValidationError/NotFoundError/SlotConflictError с полем `code`; зарегистрировать exception handlers в `main.py`, чтобы тела ошибок совпадали с контрактом
-- [ ] Тесты: сериализация моделей, отклонение невалидных данных, формат тел ошибок
-- [ ] Прогнать pytest — должен пройти перед Task 3
+- [x] `models.py`: Pydantic-модели EventType, EventTypeCreate, Slot, Guest, Booking, BookingCreate — поля/валидаторы по контракту (minLength≥1, durationMinutes≥1, email-формат)
+- [x] `storage.py`: in-memory репозиторий (dict) для event types и bookings + генерация id и createdAt
+- [x] `errors.py`: доменные исключения и Pydantic-модели ответов ValidationError/NotFoundError/SlotConflictError с полем `code`; зарегистрировать exception handlers в `main.py`, чтобы тела ошибок совпадали с контрактом
+- [x] Тесты: сериализация моделей, отклонение невалидных данных, формат тел ошибок
+- [x] Прогнать pytest — должен пройти перед Task 3
 
 ### Task 3: Endpoints event types (create + list)
 
