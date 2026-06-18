@@ -61,3 +61,25 @@ serves a Prism mock of the same document on port 4010, and `npm run dev` starts
 the dev server against it. This satisfies the "works with a separately running
 backend" requirement without a real server. See `frontend/README.md` for
 details.
+
+## Backend (`backend/`)
+
+A separate, contract-driven Python service lives under `backend/` with its own
+environment (`requirements.txt` + `.venv`), fully decoupled from this TypeSpec
+project. It is an **in-memory** implementation (data is lost on restart) of the
+exact same contract emitted to `tsp-output/schema/openapi.yaml`: the same
+operations, request/response shapes, and status codes. Unlike the spec — which
+only documents business rules in prose — the backend **enforces** them
+server-side (slot math, 14-day window, the global one-call-at-a-time overlap
+rule checked across all event types). owner-local time is treated as **UTC**
+here so slot math and tests are deterministic.
+
+Stack: Python 3.11+, FastAPI, Pydantic (email validation), Uvicorn; tests on
+pytest + FastAPI `TestClient` + `pytest-cov`.
+
+Workflow: from inside `backend/`, `pip install -r requirements.txt`, run with
+`uvicorn app.main:app --reload --port 8000`, and test with `pytest` (or
+`pytest --cov`). To drive the frontend against it instead of the Prism mock,
+set `VITE_API_BASE_URL=http://localhost:8000` and ensure the backend's
+`CORS_ORIGINS` includes the frontend origin. See `backend/README.md` for
+details.
