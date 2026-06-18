@@ -67,9 +67,9 @@ frontend (Vite), затем FastAPI-backend раздаёт эту статику
 
 ### Task 3: Verify acceptance criteria
 
-- [ ] Запустить полный backend-тест-сьют (`cd backend; pytest`) — все проходят.
-- [ ] Запустить линтер backend (`ruff check`), если настроен.
-- [ ] Проверить покрытие backend (`pytest --cov`) — 80%+.
+- [x] Запустить полный backend-тест-сьют (`cd backend; pytest`) — все проходят. (63 passed)
+- [x] Запустить линтер backend (`ruff check`), если настроен. (All checks passed)
+- [x] Проверить покрытие backend (`pytest --cov`) — 80%+. (100% coverage)
 
 ### Task 4: Update documentation
 
