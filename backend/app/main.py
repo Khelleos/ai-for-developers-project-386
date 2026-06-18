@@ -5,10 +5,13 @@ storage is reset on process restart; tests reset it between cases via the
 `client` fixture in `tests/conftest.py`.
 """
 
+import os
+
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from app import config
 from app.errors import DomainError
@@ -66,3 +69,21 @@ from app.routers import bookings, event_types  # noqa: E402
 
 app.include_router(event_types.router)
 app.include_router(bookings.router)
+
+
+def mount_frontend(target: FastAPI, dist_path: str) -> None:
+    """Serve the built frontend SPA from `dist_path` at the root path.
+
+    Mounts `StaticFiles(..., html=True)` at `/` only when `dist_path` exists and
+    contains an `index.html`. Must be called AFTER the API routers are included
+    so that `/event-types`, `/bookings`, `/docs`, and `/openapi.json` keep
+    priority over the catch-all static mount. When the directory is absent
+    (backend-only dev or tests) static serving is silently skipped, leaving the
+    API fully functional.
+    """
+    if not os.path.isfile(os.path.join(dist_path, "index.html")):
+        return
+    target.mount("/", StaticFiles(directory=dist_path, html=True), name="frontend")
+
+
+mount_frontend(app, config.FRONTEND_DIST)

@@ -46,11 +46,11 @@ frontend (Vite), затем FastAPI-backend раздаёт эту статику
 - Modify: `backend/app/main.py`
 - Create: `backend/tests/test_static.py`
 
-- [ ] В `config.py` добавить `FRONTEND_DIST` — путь к каталогу собранной статики, читаемый из окружения (`os.environ.get("FRONTEND_DIST", ...)`) с разумным значением по умолчанию.
-- [ ] В `main.py` добавить функцию `mount_frontend(target: FastAPI, dist_path: str) -> None`, которая монтирует `StaticFiles(directory=dist_path, html=True)` в `/` только если каталог существует (с `index.html`); регистрируется ПОСЛЕ `include_router`, чтобы не перехватывать `/event-types`, `/bookings`, `/docs`, `/openapi.json`.
-- [ ] Вызвать `mount_frontend(app, config.FRONTEND_DIST)` в `main.py`.
-- [ ] Написать `tests/test_static.py`: на временном каталоге с `index.html` проверить, что `mount_frontend` отдаёт `index.html` на `GET /`; и что без каталога приложение поднимается без статики (API по-прежнему работает).
-- [ ] Запустить backend-тесты (`pytest`) — должны пройти перед Task 2.
+- [x] В `config.py` добавить `FRONTEND_DIST` — путь к каталогу собранной статики, читаемый из окружения (`os.environ.get("FRONTEND_DIST", ...)`) с разумным значением по умолчанию.
+- [x] В `main.py` добавить функцию `mount_frontend(target: FastAPI, dist_path: str) -> None`, которая монтирует `StaticFiles(directory=dist_path, html=True)` в `/` только если каталог существует (с `index.html`); регистрируется ПОСЛЕ `include_router`, чтобы не перехватывать `/event-types`, `/bookings`, `/docs`, `/openapi.json`.
+- [x] Вызвать `mount_frontend(app, config.FRONTEND_DIST)` в `main.py`.
+- [x] Написать `tests/test_static.py`: на временном каталоге с `index.html` проверить, что `mount_frontend` отдаёт `index.html` на `GET /`; и что без каталога приложение поднимается без статики (API по-прежнему работает).
+- [x] Запустить backend-тесты (`pytest`) — должны пройти перед Task 2.
 
 ### Task 2: Dockerfile и .dockerignore
 
