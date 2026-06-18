@@ -63,6 +63,27 @@ Settings are read from environment variables (see `app/config.py`):
 - `PORT` — port the server binds to (default `8000`).
 - `CORS_ORIGINS` — comma-separated list of allowed frontend origins
   (default `http://localhost:5173`, the Vite dev server).
+- `FRONTEND_DIST` — directory of the built frontend static assets (Vite
+  `dist/`). Defaults to the repo's `frontend/dist`. When the directory exists,
+  `mount_frontend` serves it at `/` (after the API routers, so API paths keep
+  priority); when absent, static serving is silently skipped so backend-only dev
+  and tests run unchanged. Set explicitly in the Docker image to
+  `/app/frontend_dist`.
+
+## Serving the frontend / Docker
+
+In the single-image Docker build (root `Dockerfile`) this backend also serves
+the built frontend from the same process, so the API and the UI share one
+origin and no CORS is needed in production. From the repo root:
+
+```sh
+docker build -t call-booking .
+docker run -e PORT=8000 -p 8000:8000 call-booking
+# frontend → http://localhost:8000/   API docs → http://localhost:8000/docs
+```
+
+The `CMD` runs `uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}`, so a
+hosting platform can inject `PORT` and the container starts automatically.
 
 ## Pointing the frontend at this backend
 

@@ -73,8 +73,8 @@ frontend (Vite), затем FastAPI-backend раздаёт эту статику
 
 ### Task 4: Update documentation
 
-- [ ] Обновить `CLAUDE.md` (раздел Backend / новый раздел Docker): описать единый образ, сборку, переменные `PORT` и `FRONTEND_DIST`, запуск контейнера.
-- [ ] Обновить `README.md` (корень) или `backend/README.md`: инструкции `docker build` / `docker run -e PORT=...`, и плейсхолдер для публичной ссылки после деплоя.
+- [x] Обновить `CLAUDE.md` (раздел Backend / новый раздел Docker): описать единый образ, сборку, переменные `PORT` и `FRONTEND_DIST`, запуск контейнера.
+- [x] Обновить `README.md` (корень) или `backend/README.md`: инструкции `docker build` / `docker run -e PORT=...`, и плейсхолдер для публичной ссылки после деплоя.
 
 ## Post-Completion (manual / external — выполняется агентом/пользователем вне автоматических чек-боксов)
 

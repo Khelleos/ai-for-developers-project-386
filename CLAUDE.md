@@ -83,3 +83,31 @@ Workflow: from inside `backend/`, `pip install -r requirements.txt`, run with
 set `VITE_API_BASE_URL=http://localhost:8000` and ensure the backend's
 `CORS_ORIGINS` includes the frontend origin. See `backend/README.md` for
 details.
+
+## Docker — single image (backend serves the built frontend)
+
+The whole app ships as **one Docker image** built from the root `Dockerfile`
+(multi-stage). Stage 1 (`node:22-alpine`) builds the Vite frontend with an empty
+`VITE_API_BASE_URL` so it calls the API over **relative** paths; stage 2
+(`python:3.11-slim`) installs the backend, copies the built `dist/` in, and runs
+uvicorn. Static assets and the API are served from the **same origin / same
+process**, so no CORS is needed in production.
+
+Build & run:
+
+```sh
+docker build -t call-booking .
+docker run -e PORT=8000 -p 8000:8000 call-booking
+# frontend → http://localhost:8000/   API docs → http://localhost:8000/docs
+```
+
+Container env vars:
+
+- `PORT` — port uvicorn binds to (default `8000`). The `CMD` is shell-form
+  (`--port ${PORT:-8000}`) so a hosting platform (Render/Railway) can inject it;
+  startup is automatic.
+- `FRONTEND_DIST` — directory of the built static assets; set to
+  `/app/frontend_dist` in the image. `main.py`'s `mount_frontend` mounts it at
+  `/` **after** the API routers (so `/event-types`, `/bookings`, `/docs`,
+  `/openapi.json` keep priority) and **only if the directory exists** — backend-
+  only dev and tests run unchanged when no `dist/` is present.

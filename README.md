@@ -102,3 +102,29 @@ Quick start (from `backend/`):
 To drive the frontend against it instead of the Prism mock, set
 `VITE_API_BASE_URL=http://localhost:8000` and ensure the backend's `CORS_ORIGINS`
 includes the frontend origin. See `backend/README.md` for full details.
+
+## Docker — single image
+
+The whole app ships as **one Docker image** built from the root `Dockerfile`
+(multi-stage): stage 1 (`node:22-alpine`) builds the Vite frontend, stage 2
+(`python:3.11-slim`) runs the FastAPI backend, which serves the built static
+assets and the API from the **same origin / same process**. The frontend is
+built with an empty `VITE_API_BASE_URL`, so it calls the API over relative paths
+and no CORS is needed in production.
+
+```bash
+docker build -t call-booking .
+docker run -e PORT=8000 -p 8000:8000 call-booking
+```
+
+Then open `http://localhost:8000/` (frontend) and `http://localhost:8000/docs`
+(API docs). Container environment variables:
+
+- `PORT` — port the server binds to (default `8000`); a hosting platform may
+  inject it. Startup is automatic.
+- `FRONTEND_DIST` — directory of the built static assets (set to
+  `/app/frontend_dist` in the image). The backend mounts it at `/` after the API
+  routers and only if it exists, so API routes keep priority and backend-only
+  dev/tests still work without a build.
+
+**Live deployment:** _TODO — public URL to be added after deploy._
