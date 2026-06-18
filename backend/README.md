@@ -62,7 +62,10 @@ Settings are read from environment variables (see `app/config.py`):
 
 - `PORT` — port the server binds to (default `8000`).
 - `CORS_ORIGINS` — comma-separated list of allowed frontend origins
-  (default `http://localhost:5173`, the Vite dev server).
+  (default `http://localhost:5173`, the Vite dev server). Only relevant when the
+  frontend runs on a separate origin (Vite dev server or the Prism-mock
+  workflow). In the single-image Docker build the UI and API share one origin,
+  so CORS is not exercised.
 - `FRONTEND_DIST` — directory of the built frontend static assets (Vite
   `dist/`). Defaults to the repo's `frontend/dist`. When the directory exists,
   `mount_frontend` serves it at `/` (after the API routers, so API paths keep

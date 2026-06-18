@@ -111,3 +111,11 @@ Container env vars:
   `/` **after** the API routers (so `/event-types`, `/bookings`, `/docs`,
   `/openapi.json` keep priority) and **only if the directory exists** — backend-
   only dev and tests run unchanged when no `dist/` is present.
+
+The frontend uses **`HashRouter`** (not `BrowserRouter`) so all client routes
+live in the URL fragment (e.g. `/#/bookings`). The static server only ever sees
+`GET /` for deep links and refreshes — without this, a refresh on `/bookings`
+would hit the API's `GET /bookings` and return JSON, and a refresh on
+`/event-types/<id>/book` would 404, since the static mount does not fall back to
+`index.html`. Do not switch back to `BrowserRouter` without adding an SPA
+fallback and resolving the API-path collision.
