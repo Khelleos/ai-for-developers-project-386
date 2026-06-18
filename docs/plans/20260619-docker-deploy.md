@@ -58,12 +58,12 @@ frontend (Vite), затем FastAPI-backend раздаёт эту статику
 - Create: `Dockerfile`
 - Create: `.dockerignore`
 
-- [ ] Multi-stage `Dockerfile`:
+- [x] Multi-stage `Dockerfile`:
   - Stage build (`node:22-alpine`): `WORKDIR /frontend`, копировать `frontend/package*.json`, `npm ci`, копировать остальной `frontend/`, собрать с `ENV VITE_API_BASE_URL=""` → артефакт `dist/`.
   - Stage runtime (`python:3.11-slim`): `WORKDIR /app`, копировать `backend/requirements.txt`, `pip install --no-cache-dir -r requirements.txt`, копировать `backend/`, копировать `dist/` из build-стадии в каталог статики, задать `ENV FRONTEND_DIST=<путь к статике>` и `ENV PORT=8000`.
   - `EXPOSE 8000`; `CMD` в shell-форме запускает `uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}` — старт автоматический, порт из PORT.
-- [ ] Создать `.dockerignore`: исключить `**/.venv`, `**/node_modules`, `**/dist`, `tsp-output`, `**/__pycache__`, `**/.pytest_cache`, `**/.ruff_cache`, `.git`, `.ralphex`.
-- [ ] Регрессионная проверка: запустить backend-тесты (`pytest`) — должны пройти (код раздачи статики не сломан).
+- [x] Создать `.dockerignore`: исключить `**/.venv`, `**/node_modules`, `**/dist`, `tsp-output`, `**/__pycache__`, `**/.pytest_cache`, `**/.ruff_cache`, `.git`, `.ralphex`.
+- [x] Регрессионная проверка: запустить backend-тесты (`pytest`) — должны пройти (код раздачи статики не сломан).
 
 ### Task 3: Verify acceptance criteria
 
