@@ -36,4 +36,6 @@ ENV PORT=8000
 EXPOSE 8000
 
 # Shell form so ${PORT} is expanded at runtime; the platform may inject PORT.
-CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
+# `exec` replaces the shell with uvicorn so it runs as PID 1 and receives
+# SIGTERM from `docker stop`/the host platform, enabling graceful shutdown.
+CMD exec uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
