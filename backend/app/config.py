@@ -33,3 +33,15 @@ CORS_ORIGINS = [
     ).split(",")
     if origin.strip()
 ]
+
+# Directory holding the built frontend static assets (Vite `dist/`). In the
+# single-image Docker build this is set explicitly; the default points at the
+# repo's `frontend/dist` so a local `npm run build` is served too. When the
+# directory is absent (e.g. backend-only dev or tests) static serving is
+# silently skipped.
+_DEFAULT_FRONTEND_DIST = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+    "frontend",
+    "dist",
+)
+FRONTEND_DIST = os.environ.get("FRONTEND_DIST", _DEFAULT_FRONTEND_DIST)
